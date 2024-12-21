@@ -1,0 +1,49 @@
+{
+    "type": {
+        "category": "player",
+        "subtitle": "type",
+        "sounds": [ { "name": "pixelcore:type", "stream": false } ]
+    },
+    "lottery_tick":
+    {
+        "category": "player",
+        "subtitle": "lottery_tick",
+        "sounds": [ { "name": "pixelcore:lottery_tick", "stream": false } ]
+    },
+    "upgrade_success":
+    {
+        "category": "player",
+        "subtitle": "upgrade_success",
+        "sounds": [ { "name": "pixelcore:upgrade_success", "stream": false } ]
+    },
+    "upgrade_fail":
+    {
+        "category": "player",
+        "subtitle": "upgrade_fail",
+        "sounds": [ { "name": "pixelcore:upgrade_fail", "stream": false } ]
+    },
+    "upgrade_equip":
+    {
+        "category": "player",
+        "subtitle": "upgrade_equip",
+        "sounds": [ { "name": "pixelcore:upgrade_equip", "stream": false } ]
+    },
+    "upgrade_use":
+    {
+        "category": "player",
+        "subtitle": "upgrade_use",
+        "sounds": [ { "name": "pixelcore:upgrade_use", "stream": false } ]
+    },
+    "flip_card":
+    {
+        "category": "player",
+        "subtitle": "flip_card",
+        "sounds": [ { "name": "pixelcore:flip_card", "stream": false } ]
+    },
+    "card_hover":
+    {
+        "category": "player",
+        "subtitle": "card_hover",
+        "sounds": [ { "name": "pixelcore:card_hover", "stream": false } ]
+    }
+}

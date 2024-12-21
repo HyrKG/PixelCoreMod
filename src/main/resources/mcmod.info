@@ -1,0 +1,16 @@
+[
+{
+  "modid": "pixelcore",
+  "name": "Pixel Core",
+  "description": "Pixel Core Mod",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["HyrKG"],
+  "credits": "e...",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
