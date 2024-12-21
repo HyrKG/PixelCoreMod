@@ -57,6 +57,7 @@ public class ClientHandler {
 		if (event.getGui() instanceof GuiScreenOptionsSounds) {
 			manager.updateConfiguredMusicVolume();
 		}
+	
 	}
 
 	/**
