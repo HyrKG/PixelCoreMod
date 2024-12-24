@@ -191,7 +191,7 @@ public class BackgroundMusicManager {
 	 * @param volume
 	 */
 	private void updateMusicVolume(int volume) {
-		this.player.setVolume(Math.min(volume, this.getMinecraftMasterVolume()));
+		this.player.setVolume(Math.min(volume, this.getMinecraftBindingVolume()));
 
 	}
 
@@ -199,7 +199,7 @@ public class BackgroundMusicManager {
 	 * 
 	 * @return The current Minecraft's master volume.
 	 */
-	private int getMinecraftMasterVolume() {
+	public int getMinecraftBindingVolume() {
 		float musicLevel = Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MUSIC);
 		return (int) (musicLevel * 100);
 	}

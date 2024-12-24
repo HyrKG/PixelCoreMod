@@ -8,6 +8,8 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,10 +56,26 @@ public class ClientHandler {
 	 */
 	@SubscribeEvent
 	public static void onMasterVolumeUpdated(GuiScreenEvent.MouseInputEvent.Post event) {
-		if (event.getGui() instanceof GuiScreenOptionsSounds) {
+		// 此方法因为不兼容网易客户端，因此不再使用。
+		//		if (event.getGui() instanceof GuiScreenOptionsSounds) {
+		//			manager.updateConfiguredMusicVolume();
+		//		}
+	}
+
+	/**
+	 * 在tick中更新最后音效，以兼容网易客户端
+	 */
+	private static int lastVolumn = -1;
+
+	@SubscribeEvent
+	public static void onUpdate(TickEvent.ClientTickEvent event) {
+		if (event.phase == Phase.END) {
+			return;
+		}
+		if (lastVolumn != manager.getMinecraftBindingVolume()) {
+			lastVolumn = manager.getMinecraftBindingVolume();
 			manager.updateConfiguredMusicVolume();
 		}
-	
 	}
 
 	/**
