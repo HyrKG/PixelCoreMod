@@ -15,6 +15,8 @@ public class CustomSlot extends HoverCheck {
 	public int size;
 	public double sc;
 
+	private boolean allow = true;
+
 	public CustomSlot(Slot slot, int id, int x, int y, int size, double scale) {
 		super(id, x, y, size, size, scale);
 		this.sc = scale;
@@ -70,6 +72,11 @@ public class CustomSlot extends HoverCheck {
 	}
 
 	public boolean isAllow() {
-		return true;
+		return allow;
+	}
+
+	public CustomSlot setAllow(boolean allow) {
+		this.allow = allow;
+		return this;
 	}
 }

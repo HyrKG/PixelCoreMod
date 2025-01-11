@@ -39,6 +39,7 @@ import net.minecraft.item.ItemStack;
 
 public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui {
 	public static final Tex TEX_BLUEPRINT = Tex.of("forge/ring_absorb");
+	public static final Tex TEX_SKILLBAR = Tex.of("forge/skillbar");
 
 	/////////////////////////////////////
 	// 基础
@@ -61,6 +62,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 	private List<ItemStack> validExtraMaterials = new ArrayList<ItemStack>();
 	private ItemStack selectedExtraMaterial = null;
 	private HashMap<Integer, Integer> slotIdMap = new HashMap<Integer, Integer>();
+	private int selectedRingSlot = -1;// 选中的魂环槽位
 
 	// 渐入动画
 	private TickCounter fadeInCounter = new TickCounter(15, false);
@@ -84,7 +86,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 	@Override
 	public void fastInitGui(FastGuiHandler gui) {
 		gui.clearComponents();
-		gui.getTransformSolution().wh(323, 199).fitScaledScreen(2.6f).translateToCenter(width, height);
+		gui.getTransformSolution().wh(245, 210).fitScaledScreen(2.6f).translateToCenter(width, height);
 
 		// 帮助按钮
 		String text = "-";
@@ -119,11 +121,11 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 				newMaterials.add(copy);
 
 				// 放置按钮
-				int row = index % 6;
-				int cow = index / 6;
+				int row = index % 3;
+				int cow = index / 3;
 				ComponentButton btn;
 				handler.addComponent(
-						btn = new ComponentItemButton(100 + index, copy, 192 + row * 19, 31 + cow * 19, 16, 15)
+						btn = new ComponentItemButton(100 + index, copy, 192 + 2 + row * 19, 31 + cow * 19, 16, 15)
 								.whenClick(this::onClick));
 				slotIdMap.put(100 + index, element.getAsInt());
 
@@ -138,7 +140,25 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 		}
 		validExtraMaterials = newMaterials;
 
+		if (completeJson.has("selectedRingSlot")) {
+			selectedRingSlot = completeJson.get("selectedRingSlot").getAsInt();
+		} else {
+			selectedRingSlot = -1;
+		}
+
+		for (int i = 0; i < 9; i++) {
+			ComponentButton btn;
+			handler.addComponent(btn = new ComponentButton(i, -19, 8 + (int) (i * 18.3), 15, 15)
+					.whenClick(this::onClickRingSlot).texHover(ReadyTex.of(TEX_BLUEPRINT, 0, 0, 0, 0)));
+			btn.setHoverPrecondition(null);
+		}
+
 		gui.setHoverPrecondition(() -> !gui.hasComponent(ComponentMessageBox.class));
+
+	}
+
+	public void onClickRingSlot(ComponentButton btn) {
+		this.msg().add("select-ring-slot", btn.id).sent();
 	}
 
 	public void onClick(ComponentButton btn) {
@@ -219,7 +239,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 			float progress = 1f - upgradeFadeInCounter.percentage(gui.getPartialTicks());
 			gui.push().translate(8.5 + bgOffsetX, 23 + bgOffsetY, 30).scale2D(1.02).rgba(progress, progress, progress,
 					1f);
-			gui.drawTex(387, 279, 164, 89);
+			gui.drawTex(387, 279, 160, 89);
 		} else if (!upgradeResultCounter.isDone()) {
 			float progress = upgradeResultCounter.percentage(gui.getPartialTicks());
 			GlState state = gui.push().translate(8.5 + bgOffsetX, 23 + bgOffsetY, 30).scale2D(1.02);
@@ -229,12 +249,12 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 			} else {
 				state.rgba(1f, color, color, 1f);
 			}
-			gui.drawTex(387, 279, 164, 89);
+			gui.drawTex(387, 279, 160, 89);
 		} else {
 			float progressFade = fadeInCounter.percentage(gui.getPartialTicks());
 			gui.push().translate(8.5 + bgOffsetX, 23 + bgOffsetY, 30).scale2D(1.02).rgba(progressFade, progressFade,
 					progressFade, 1f);
-			gui.drawTex(387, 279, 164, 89);
+			gui.drawTex(387, 279, 160, 89);
 		}
 
 		GL11.glPopMatrix();
@@ -278,11 +298,11 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 		GlStateManager.color(1, 1, 1);
 		int itemIndex = 0;
 		for (ItemStack stack : validExtraMaterials) {
-			int row = itemIndex % 6;
-			int cow = itemIndex / 6;
+			int row = itemIndex % 3;
+			int cow = itemIndex / 3;
 			GlStateManager.enableDepth();
 			gui.bind(TEX_BLUEPRINT);
-			gui.pushKeep("g").translate(192 + row * 19, 31 + cow * 19);
+			gui.pushKeep("g").translate(192 + 2 + row * 19, 31 + cow * 19);
 			gui.glStateInvokeStart();
 			gui.drawTex(371, 23, 16, 15);
 			RenderHelper.enableGUIStandardItemLighting();
@@ -303,6 +323,23 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 			gui.pop();
 			itemIndex += 1;
 		}
+
+		////////////////////////////////////////////////
+		//
+		// 绘制侧边技能栏
+		GlStateManager.color(1, 1, 1);
+		gui.bind(TEX_SKILLBAR);
+		gui.push().translate(-30, 1).scale2D(0.131);
+		gui.drawFullTex();
+
+		if (selectedRingSlot != -1) {
+			gui.bind(TEX_BLUEPRINT);
+			GlStateManager.enableDepth();
+			GlStateManager.enableAlpha();
+			gui.push().translate(-13, 13 + 18.3 * selectedRingSlot, 500);
+			gui.drawTex(350, 42, 10, 11);
+		}
+
 	}
 
 	@Override
@@ -357,6 +394,15 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui 
 					}
 					customSlot = new RingSlotMaterial(this, text, slot, slot.slotNumber, 20 + row * 14, 62 + col * 13,
 							12, scale);
+				} else if (slot.slotNumber >= 27 && slot.slotNumber <= 27 + 8) {
+					// 材料槽
+					int idx = slot.slotNumber - 27;
+					String text = String.valueOf(slot.getStack().getCount());
+					if (idx < requireList.size()) {
+						text = requireList.get(idx);
+					}
+					customSlot = new CustomSlot(slot, slot.slotNumber, -18, 11 + (int) (idx * 18.3), size, scale)
+							.setAllow(false);
 
 				} else {
 					customSlot = new CustomSlot(slot, slot.slotNumber, -9999999, -9999999, size, scale);
