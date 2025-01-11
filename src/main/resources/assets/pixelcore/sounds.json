@@ -45,5 +45,23 @@
         "category": "player",
         "subtitle": "card_hover",
         "sounds": [ { "name": "pixelcore:card_hover", "stream": false } ]
+    },
+    "upgrade_wsuccess":
+    {
+        "category": "player",
+        "subtitle": "upgrade_wsuccess",
+        "sounds": [ { "name": "pixelcore:upgrade_wsuccess", "stream": false } ]
+    },
+    "upgrade_wfail":
+    {
+        "category": "player",
+        "subtitle": "upgrade_wfail",
+        "sounds": [ { "name": "pixelcore:upgrade_wfail", "stream": false } ]
+    },
+    "upgrade_wstart":
+    {
+        "category": "player",
+        "subtitle": "upgrade_wstart",
+        "sounds": [ { "name": "pixelcore:upgrade_wstart", "stream": false } ]
     }
 }

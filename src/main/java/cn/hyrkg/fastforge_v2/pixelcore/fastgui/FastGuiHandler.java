@@ -13,6 +13,7 @@ import cn.hyrkg.fastforge_v2.pixelcore.fastgui.component.BaseComponent;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.component.IComponent;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.component.IDrawable;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.instance.BaseFastGuiScreen;
+import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.DrawHelper;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.ReadyTex;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.Tex;
 import net.minecraft.client.Minecraft;
@@ -249,6 +250,12 @@ public class FastGuiHandler extends BaseComponent {
 		Preconditions.checkNotNull(bindedTex, "Couldn't draw before bind tex!");
 		drawTex(0, 0, u, v, w, h);
 
+	}
+
+	public void drawCenteredTex(int x, int y, int u, int v, int w, int h) {
+		glStateInvokeStart();
+		DrawHelper.drawModalRectWithCustomSizedTextureC(x, y, u, v, w, h, bindedTex.texWidth, bindedTex.texHeight);
+		glStateInvokeEnd();
 	}
 
 	public void drawFullTex(int x, int y) {
