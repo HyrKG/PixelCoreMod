@@ -37,8 +37,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui, BlueprintProvider {
-	public static final Tex TEX_BLUEPRINT = Tex.of("forge/ring_absorb");
+public class GuiRingDisassemble extends BaseFastContainerGui implements IForgeGui, BlueprintProvider {
+	public static final Tex TEX_BLUEPRINT = Tex.of("forge/ring_disassemble");
 	public static final Tex TEX_SKILLBAR = Tex.of("forge/skillbar");
 
 	/////////////////////////////////////
@@ -72,7 +72,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui,
 	private TickCounter upgradeResultCounter = new TickCounter(30, false);
 	private boolean lastSuccess = false;
 
-	public GuiRingBlueprint(UUID uuid, EntityPlayer player, IInventory upperInv, IInventory lowerInv) {
+	public GuiRingDisassemble(UUID uuid, EntityPlayer player, IInventory upperInv, IInventory lowerInv) {
 		super(new ContainerChest(upperInv, lowerInv, player));
 		this.uuid = uuid;
 		sharedProperty = new SharedProperty();
@@ -268,7 +268,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui,
 		DrawHelper.drawCenterRolling(disX, disY, 0.5f);
 
 		// 绘制界面
-		gui.drawTex(19, 20, 300, 199);
+		gui.drawTex(19, 20, 323, 199);
 
 		// 绘制槽位
 		gui.push().translate(43, 35, 0);
@@ -481,7 +481,6 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui,
 		if (!fadeInCounter.isDone()) {
 			return;
 		}
-		// TODO Auto-generated method stub
 		super.renderHoveredToolTip(p_191948_1_, p_191948_2_);
 	}
 

@@ -15,10 +15,11 @@ import scala.actors.threadpool.Arrays;
 
 public class RingSlotMaterial extends CustomSlot {
 
-	private GuiRingBlueprint gui;
+	private BlueprintProvider gui;
 	private String text = "";// 数量（需求）文本
 
-	public RingSlotMaterial(GuiRingBlueprint gui, String text, Slot slot, int id, int x, int y, int size, double scale) {
+	public RingSlotMaterial(BlueprintProvider gui, String text, Slot slot, int id, int x, int y, int size,
+			double scale) {
 		super(slot, id, x, y, size, scale);
 		this.gui = gui;
 		this.text = text;
@@ -42,20 +43,20 @@ public class RingSlotMaterial extends CustomSlot {
 			GL11.glTranslated(-0.7, -0.6, 0);
 			GL11.glScaled(size * 0.028, size * 0.028, 1);
 			mc.renderEngine.bindTexture(GuiRingBlueprint.TEX_BLUEPRINT.getTexture());
-			mc.ingameGUI.drawModalRectWithCustomSizedTexture(0, 0, 371, 23, 16, 15, GuiRingBlueprint.TEX_BLUEPRINT.texWidth,
-					GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
+			mc.ingameGUI.drawModalRectWithCustomSizedTexture(0, 0, 371, 23, 16, 15,
+					GuiRingBlueprint.TEX_BLUEPRINT.texWidth, GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
 			GL11.glPopMatrix();
 		} else if (!gui.hasBlueprint()) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(-0.7, -0.6, 0);
 			GL11.glScaled(size * 0.028, size * 0.028, 1);
 			mc.renderEngine.bindTexture(GuiRingBlueprint.TEX_BLUEPRINT.getTexture());
-			mc.ingameGUI.drawModalRectWithCustomSizedTexture(0, 0, 371, 23, 16, 15, GuiRingBlueprint.TEX_BLUEPRINT.texWidth,
-					GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
+			mc.ingameGUI.drawModalRectWithCustomSizedTexture(0, 0, 371, 23, 16, 15,
+					GuiRingBlueprint.TEX_BLUEPRINT.texWidth, GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
 
 			GL11.glScaled(0.8, 0.8, 1);
-			mc.ingameGUI.drawModalRectWithCustomSizedTexture(6, 4, 139, 240, 9, 11, GuiRingBlueprint.TEX_BLUEPRINT.texWidth,
-					GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
+			mc.ingameGUI.drawModalRectWithCustomSizedTexture(6, 4, 139, 240, 9, 11,
+					GuiRingBlueprint.TEX_BLUEPRINT.texWidth, GuiRingBlueprint.TEX_BLUEPRINT.texHeight);
 			GL11.glPopMatrix();
 		}
 
@@ -67,7 +68,7 @@ public class RingSlotMaterial extends CustomSlot {
 			GlStateManager.disableLighting();
 			GlStateManager.disableDepth();
 			GlStateManager.disableBlend();
-			gui.mc.fontRenderer.drawStringWithShadow("§f" + text, -2, 10, -1);
+			mc.fontRenderer.drawStringWithShadow("§f" + text, -2, 10, -1);
 			GL11.glPopMatrix();
 		}
 		// itemRender.renderItemOverlayIntoGUI(mc.fontRenderer, item, 0, 0, text);
