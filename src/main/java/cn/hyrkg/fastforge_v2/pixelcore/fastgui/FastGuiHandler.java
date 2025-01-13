@@ -18,6 +18,10 @@ import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.ReadyTex;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.Tex;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 public class FastGuiHandler extends BaseComponent {
 	public final GuiScreen gui;
@@ -372,6 +376,93 @@ public class FastGuiHandler extends BaseComponent {
 			y += mc.fontRenderer.FONT_HEIGHT;
 		}
 		glStateInvokeEnd();
+	}
+
+	public static void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
+		// 设置颜色
+		float alpha = (color >> 24 & 255) / 255.0F;
+		float red = (color >> 16 & 255) / 255.0F;
+		float green = (color >> 8 & 255) / 255.0F;
+		float blue = (color & 255) / 255.0F;
+
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture2D();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+				GlStateManager.DestFactor.ZERO);
+		GlStateManager.color(red, green, blue, alpha);
+
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+
+		// 中间矩形
+		buffer.begin(7, DefaultVertexFormats.POSITION);
+		buffer.pos(x + radius, y + height - radius, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + height - radius, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + radius, 0.0D).endVertex();
+		buffer.pos(x + radius, y + radius, 0.0D).endVertex();
+		tessellator.draw();
+
+		// 绘制上下左右边框
+		buffer.begin(7, DefaultVertexFormats.POSITION);
+		// 上边
+		buffer.pos(x + radius, y, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + radius, 0.0D).endVertex();
+		buffer.pos(x + radius, y + radius, 0.0D).endVertex();
+
+		// 下边
+		buffer.pos(x + radius, y + height, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + height, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + height - radius, 0.0D).endVertex();
+		buffer.pos(x + radius, y + height - radius, 0.0D).endVertex();
+
+		// 左边
+		buffer.pos(x, y + radius, 0.0D).endVertex();
+		buffer.pos(x + radius, y + radius, 0.0D).endVertex();
+		buffer.pos(x + radius, y + height - radius, 0.0D).endVertex();
+		buffer.pos(x, y + height - radius, 0.0D).endVertex();
+
+		// 右边
+		buffer.pos(x + width, y + radius, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + radius, 0.0D).endVertex();
+		buffer.pos(x + width - radius, y + height - radius, 0.0D).endVertex();
+		buffer.pos(x + width, y + height - radius, 0.0D).endVertex();
+
+		tessellator.draw();
+
+		// 左上圆角
+		drawCircleSegment(tessellator, x + radius, y + radius, radius, 180, 270);
+		// 右上圆角
+		drawCircleSegment(tessellator, x + width - radius, y + radius, radius, 270, 360);
+		// 左下圆角
+		drawCircleSegment(tessellator, x + radius, y + height - radius, radius, 90, 180);
+		// 右下圆角
+		drawCircleSegment(tessellator, x + width - radius, y + height - radius, radius, 0, 90);
+
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+	}
+
+	public static void drawCircleSegment(Tessellator tessellator, float centerX, float centerY, float radius,
+			int startAngle, int endAngle) {
+		BufferBuilder buffer = tessellator.getBuffer();
+
+		// 绘制开始：GL_TRIANGLE_FAN 从中心点开始向外连接形成扇形
+		buffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION);
+
+		// 第一个顶点是圆弧的中心
+		buffer.pos(centerX, centerY, 0.0D).endVertex();
+
+		// 逐步绘制从 startAngle 到 endAngle 的圆弧
+		for (int angle = startAngle; angle <= endAngle; angle++) {
+			double radians = Math.toRadians(angle); // 将角度转为弧度
+			double x = centerX + Math.cos(radians) * radius;
+			double y = centerY + Math.sin(radians) * radius;
+			buffer.pos(x, y, 0.0D).endVertex();
+		}
+
+		tessellator.draw(); // 完成扇形的绘制
 	}
 
 	private String trimStringNewline(String text) {

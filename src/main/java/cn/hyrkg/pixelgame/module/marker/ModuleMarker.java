@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import cn.hyrkg.fastforge_v2.pixelcore.fastgui.FastGuiHandler;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.DrawHelper;
 import cn.hyrkg.fastforge_v2.pixelcore.fastgui.utils.Tex;
 import cn.hyrkg.pixelgame.config.PixelGameConfig;
@@ -106,23 +107,21 @@ public class ModuleMarker implements IJsonPacketHandler {
 
 			// draw name and distance
 			GL11.glPushMatrix();
-			GL11.glTranslated(0, -120, 0);
+			GL11.glTranslated(0, -150, 0);
 			GL11.glRotated(180, 0, 1, 0);
 			GL11.glRotated(180, 1, 0, 0);
 			GL11.glScaled(15, 15, 15);
 
 			int distan2Int = (int) distance;
-			mc.ingameGUI.drawCenteredString(mc.fontRenderer, "§0【" + pos.markerName.get() + "】(" + distan2Int + "m)", 0,
+			mc.ingameGUI.drawCenteredString(mc.fontRenderer, "§0" + pos.markerName.get() + "(" + distan2Int + "m)", 0,
 					0, -1);
 			GL11.glTranslated(-0.2, -0.2, 0.1);
-			mc.ingameGUI.drawCenteredString(mc.fontRenderer, "§e【" + pos.markerName.get() + "】(" + distan2Int + "m)", 0,
+			mc.ingameGUI.drawCenteredString(mc.fontRenderer, "§e" + pos.markerName.get() + "(" + distan2Int + "m)", 0,
 					0, -1);
 
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
-//			GL11.glPushMatrix();
 		}
-//		markList.forEach(j -> j.render(partialTicks));
 
 		GL11.glDisable(0x864F);
 		GlStateManager.enableDepth();
