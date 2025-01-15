@@ -89,7 +89,8 @@ public class GuiRingDisassemble extends BaseFastContainerGui implements IForgeGu
 		gui.getTransformSolution().wh(245, 210).fitScaledScreen(2.6f).translateToCenter(width, height);
 
 		// 帮助按钮
-		String text = "-";
+		String text = "§e§l灵环拆解介绍:\n&f- 从灵环位上拆解灵环，以便吸入其他灵环\n&f- &7在灵环栏选中待拆解灵环后\n&f- &7会自动显示拆解灵环所需要的材料\n&f- &7提供相应材料即可拆解"
+				.replace("&", "§");
 		gui.addComponent(new ComponentButtonTextable(0, 154, 8, 11, 11).setText(text));
 
 		// 锻造按钮

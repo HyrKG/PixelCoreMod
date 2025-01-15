@@ -62,7 +62,7 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui,
 	private List<ItemStack> validExtraMaterials = new ArrayList<ItemStack>();
 	private ItemStack selectedExtraMaterial = null;
 	private HashMap<Integer, Integer> slotIdMap = new HashMap<Integer, Integer>();
-	private int selectedRingSlot = -1;// 选中的魂环槽位
+	private int selectedRingSlot = -1;// 选中的灵环槽位
 
 	// 渐入动画
 	private TickCounter fadeInCounter = new TickCounter(15, false);
@@ -89,7 +89,8 @@ public class GuiRingBlueprint extends BaseFastContainerGui implements IForgeGui,
 		gui.getTransformSolution().wh(245, 210).fitScaledScreen(2.6f).translateToCenter(width, height);
 
 		// 帮助按钮
-		String text = "-";
+		String text = "§e§l灵环吸入介绍:\n&f- 灵环可被吸入到空灵环位，提供加成与技能\n&f- &7在背包选中灵环后\n&f- &7会自动显示吸入灵环所需要的材料\n&c吸入灵环时会有概率失败，失败后灵环将破碎。\n\n&6&l保底机制\n&f- &7部分灵环拥有保底（以提示为主），每次破碎会增加1次保底，保底到达一定次数的时候吸入概率将达到100%\n\n&b&l增益石机制介绍\n&f- &7吸入灵环时可以选中增益石作为保护材料，提供额外成功率。"
+				.replace("&", "§");
 		gui.addComponent(new ComponentButtonTextable(0, 154, 8, 11, 11).setText(text));
 
 		// 锻造按钮
